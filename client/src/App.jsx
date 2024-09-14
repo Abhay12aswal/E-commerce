@@ -15,20 +15,25 @@ import ShoppingAccount from "./pages/shopping-view/account"
 import ShoppingCheckout from "./pages/shopping-view/checkout"
 import CheckAuth from "./components/common/check-auth"
 import UnauthPage from "./pages/unauth-page"
+import { useDispatch, useSelector } from "react-redux"
 
 
 function App() {
 
-  const isAuthenticated = false;
-  const user= null;
+
+  const { user, isAuthenticated, isLoading } = useSelector(
+    (state) => state.auth
+  );
+  const dispatch = useDispatch();
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       {/* commmon component */}
 
+      {/* auth route */}
       <Routes>
         <Route path="/auth" element={
-          <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+          <CheckAuth  isAuthenticated={isAuthenticated} user={user}>
             <AuthLayout/>
           </CheckAuth>
         }>
@@ -36,7 +41,7 @@ function App() {
           <Route path="register" element={<AuthRegister/>}/>
         </Route>
 
-
+        {/* admin route */}
         <Route path="/admin" element={
           <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <AdminLayout/>
@@ -48,7 +53,8 @@ function App() {
           <Route path="features" element={<AdminFeatures/>}/>
         </Route>
 
-
+        
+        {/* shop route */}
         <Route path="/shop" element={
           <CheckAuth isAuthenticated={isAuthenticated} user={user}>
             <ShoppingLayout/>
